@@ -1,14 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from "../../Assets/Logo.svg"
 import { BsCart2 } from 'react-icons/bs'
 import { HiOutlineBars3 } from 'react-icons/hi2'
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import HomeIcon from "@mui/icons-material/Home"
+import InfoIcon from "@mui/icons-material/Info"
+import CommentRoundedIcon from "@mui/icons-material/CommentRounded"
+import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded"
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded"
+import './Navbar.css'
 
 const Navbar = () => {
+  const [openMenu, setOpenMenu] = useState(false);
+  const menuOptions = [
+    {
+      text: "Home",
+      icon: <HomeIcon />
+    },
+    {
+      text: "About",
+      icon: <InfoIcon />
+    },
+    {
+      text: "Testimonials",
+      icon: <CommentRoundedIcon />
+    },
+    {
+      text: "Contact",
+      icon: <PhoneRoundedIcon />
+    },
+    {
+      text: "Cart",
+      icon: <ShoppingCartRoundedIcon />
+    }
+  ]
+
   return (
     <nav>
       <div className="nav-logo-container">
-        <img src="" alt="" />
+        <img src={Logo} alt="" />
       </div>
       <div className="navbar-links-container">
         <a href="">Home</a>
@@ -21,19 +51,21 @@ const Navbar = () => {
         <button className="primary-button">Bookings Now</button>
       </div>
       <div className="navbar-menu-container">
-        <HiOutlineBars3 />
+        <HiOutlineBars3 onClick={() => setOpenMenu(true)} />
       </div>
-      <Drawer>
-        <Box>
+      <Drawer open={openMenu} onClose={() => setOpenMenu(false)} anchor='right'>
+        <Box sx={{ width: 250 }} role='presentation' onClick={() => setOpenMenu(false)} onKeyDown={() => setOpenMenu(false)}>
           <List>
-            <ListItem>
-              <ListItemButton>
-                <ListItemIcon></ListItemIcon>
-                <ListItemText />
-              </ListItemButton>
-            </ListItem>
+            {menuOptions.map((item) => (
+              <ListItem key={item.text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
-          <Divider/>
+          <Divider />
         </Box>
       </Drawer>
     </nav>
